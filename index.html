@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>River Raid Clone</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="hud" aria-label="Status do jogo">
+    <div class="hud__item">
+      <span class="hud__label">Pontos</span>
+      <span class="hud__value" id="score">0</span>
+    </div>
+    <div class="hud__item">
+      <span class="hud__label">Combustível</span>
+      <span class="hud__value" id="fuel">100</span>
+    </div>
+    <div class="hud__item">
+      <span class="hud__label">Vida</span>
+      <span class="hud__value" id="life">3</span>
+    </div>
+  </header>
+
+  <div class="controls">
+    <span class="controls__hint">Enter começar | P pausar | ← → mover | ESPAÇO atirar</span>
+  </div>
+
+  <div class="screen screen--start" id="startScreen" aria-live="polite">
+    <div class="screen__panel">
+      <p class="screen__eyebrow">RIVER RAID CLONE</p>
+      <h1 class="screen__title">COMECE A MISSÃO</h1>
+      <p class="screen__message">Pressione Enter ou clique em Começar para iniciar.</p>
+      <button class="screen__button" type="button" onclick="startGame()">Começar</button>
+    </div>
+  </div>
+
+  <div class="screen screen--paused" id="pauseScreen" aria-live="polite">
+    <div class="screen__panel">
+      <p class="screen__eyebrow">JOGO PAUSADO</p>
+      <h1 class="screen__title">PAUSA</h1>
+      <p class="screen__message">Pressione P ou clique em Continuar para retomar.</p>
+      <button class="screen__button" type="button" onclick="resumeGame()">Continuar</button>
+    </div>
+  </div>
+
+  <div class="screen screen--gameover" id="gameOverScreen" aria-live="polite">
+    <div class="screen__panel">
+      <p class="screen__eyebrow">MISSÃO ENCERRADA</p>
+      <h1 class="screen__title screen__title--danger">GAME OVER</h1>
+      <p class="screen__message">Seu avião foi abatido. Pressione Reiniciar para tentar de novo.</p>
+      <button class="screen__button" type="button" onclick="restartGame()">Reiniciar</button>
+    </div>
+  </div>
+
+  <canvas id="game"></canvas>
+
+  <script src="js/config.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/river.js"></script>
+  <script src="js/bullets.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/stars.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/fuel.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
