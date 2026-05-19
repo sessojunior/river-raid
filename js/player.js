@@ -28,11 +28,11 @@ var player = {
 
   update: function () {
     if (keys.ArrowLeft) {
-      this.x -= this.speed;
+      this.x -= GAME.playerSpeed;
     }
 
     if (keys.ArrowRight) {
-      this.x += this.speed;
+      this.x += GAME.playerSpeed;
     }
 
     clampToRiver(this, GAME.playerMargin);

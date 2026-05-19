@@ -1,32 +1,49 @@
 var river = {
-  left: 120,
-  right: 360,
-  targetLeft: 120,
-  targetRight: 360,
+  centerX: canvas.width / 2,
+  targetCenterX: canvas.width / 2,
+  width: 0,
+  targetWidth: 0,
+  left: 0,
+  right: 0,
+
+  syncBounds: function () {
+    var bounds = calculateRiverBounds(this.centerX, this.width);
+
+    this.left = bounds.left;
+    this.right = bounds.right;
+  },
 
   reset: function () {
-    this.left = 120;
-    this.right = 360;
-    this.targetLeft = 120;
-    this.targetRight = 360;
+    this.width = fitRiverWidth(GAME.riverWidth, canvas.width, GAME.riverEdgeMargin);
+    this.targetWidth = this.width;
+    this.centerX = canvas.width / 2;
+    this.targetCenterX = this.centerX;
+    this.syncBounds();
+  },
+
+  syncToCanvas: function () {
+    this.width = fitRiverWidth(this.width || GAME.riverWidth, canvas.width, GAME.riverEdgeMargin);
+    this.targetWidth = fitRiverWidth(this.targetWidth || this.width, canvas.width, GAME.riverEdgeMargin);
+    this.centerX = clampRiverCenter(this.centerX, this.width, canvas.width, GAME.riverEdgeMargin);
+    this.targetCenterX = clampRiverCenter(this.targetCenterX, this.targetWidth, canvas.width, GAME.riverEdgeMargin);
+    this.syncBounds();
   },
 
   update: function () {
-    if (Math.random() < GAME.riverShiftChance) {
-      var width = GAME.riverWidth;
-      var maxLeft = canvas.width - width - (GAME.riverEdgeMargin * 2);
+    var difficulty = createDifficultyProfile(score, GAME);
 
-      if (maxLeft <= 0) {
-        this.targetLeft = (canvas.width - width) / 2;
-      } else {
-        this.targetLeft = Math.random() * maxLeft + GAME.riverEdgeMargin;
-      }
+    this.targetWidth = fitRiverWidth(difficulty.riverWidth, canvas.width, GAME.riverEdgeMargin);
 
-      this.targetRight = this.targetLeft + width;
+    if (Math.random() < difficulty.riverShiftChance) {
+      this.targetCenterX = generateRiverTargetCenter(canvas.width, this.targetWidth, GAME.riverEdgeMargin, Math.random);
     }
 
-    this.left += (this.targetLeft - this.left) * GAME.riverEase;
-    this.right += (this.targetRight - this.right) * GAME.riverEase;
+    this.width = stepValueTowards(this.width, this.targetWidth, GAME.riverWidthEase);
+    this.centerX = stepValueTowards(this.centerX, this.targetCenterX, GAME.riverEase);
+
+    this.width = fitRiverWidth(this.width, canvas.width, GAME.riverEdgeMargin);
+    this.centerX = clampRiverCenter(this.centerX, this.width, canvas.width, GAME.riverEdgeMargin);
+    this.syncBounds();
   },
 
   draw: function () {
@@ -42,3 +59,5 @@ var river = {
     ctx.fillRect(this.right, 0, 5, canvas.height);
   }
 };
+
+river.reset();

@@ -1,41 +1,25 @@
 var score = 0;
-var gameState = GAME_STATE.START;
+var running = true;
 var animationFrameId = null;
 
 function addScore(points) {
-  score += points;
-}
-
-function setOverlayVisibility(screen, isVisible) {
-  if (!screen) {
-    return;
-  }
-
-  screen.style.display = isVisible ? 'flex' : 'none';
-}
-
-function setGameState(nextState) {
-  gameState = nextState;
-
-  setOverlayVisibility(startScreen, nextState === GAME_STATE.START);
-  setOverlayVisibility(pauseScreen, nextState === GAME_STATE.PAUSED);
-  setOverlayVisibility(gameOverScreen, nextState === GAME_STATE.GAME_OVER);
+  score = incrementScore(score, points);
 }
 
 function updateHud() {
-  scoreEl.textContent = Math.floor(score);
+  scoreEl.textContent = formatScoreValue(score);
   fuelEl.textContent = Math.floor(player.fuel);
   lifeEl.textContent = player.lives;
 }
 
 function gameOver() {
-  if (gameState !== GAME_STATE.RUNNING) {
+  if (!running) {
     return;
   }
 
-  setGameState(GAME_STATE.GAME_OVER);
+  running = false;
+  gameOverScreen.style.display = 'flex';
   updateHud();
-  draw();
 }
 
 function resetGameplay() {
@@ -49,79 +33,30 @@ function resetGameplay() {
   resetStars();
 }
 
-function showStartScreen() {
-  resetInputState();
-  resetGameplay();
-  setGameState(GAME_STATE.START);
-  updateHud();
-  draw();
-}
-
-function startGame() {
-  if (gameState === GAME_STATE.RUNNING) {
-    return;
-  }
-
-  resetInputState();
-  resetGameplay();
-  setGameState(GAME_STATE.RUNNING);
-  updateHud();
-  draw();
-}
-
 function restartGame() {
-  if (gameState === GAME_STATE.RUNNING) {
+  if (running) {
     return;
   }
 
-  startGame();
-}
-
-function pauseGame() {
-  if (gameState !== GAME_STATE.RUNNING) {
-    return;
-  }
-
-  setGameState(GAME_STATE.PAUSED);
-  draw();
-}
-
-function resumeGame() {
-  if (gameState !== GAME_STATE.PAUSED) {
-    return;
-  }
-
-  setGameState(GAME_STATE.RUNNING);
-  draw();
-}
-
-function togglePause() {
-  if (gameState === GAME_STATE.RUNNING) {
-    pauseGame();
-    return;
-  }
-
-  if (gameState === GAME_STATE.PAUSED) {
-    resumeGame();
-  }
+  resetGameplay();
+  running = true;
+  gameOverScreen.style.display = 'none';
+  updateHud();
+  gameLoop();
 }
 
 function update() {
-  if (gameState !== GAME_STATE.RUNNING) {
-    return;
-  }
-
   river.update();
   player.update();
 
-  if (gameState !== GAME_STATE.RUNNING) {
+  if (!running) {
     return;
   }
 
   updateBullets();
   updateEnemies();
 
-  if (gameState !== GAME_STATE.RUNNING) {
+  if (!running) {
     return;
   }
 
@@ -129,7 +64,7 @@ function update() {
   updateExplosions();
   updateStars();
 
-  score += 0.1;
+  score = advanceScore(score, GAME.scoreAdvancePerFrame);
 }
 
 function draw() {
@@ -147,18 +82,29 @@ function draw() {
 }
 
 function gameLoop() {
+  if (!running) {
+    animationFrameId = null;
+    return;
+  }
+
   update();
   draw();
   updateHud();
+
+  if (!running) {
+    animationFrameId = null;
+    return;
+  }
 
   animationFrameId = requestAnimationFrame(gameLoop);
 }
 
 window.addEventListener('resize', function () {
   canvas.height = window.innerHeight;
+  applyGamePacing();
+  river.syncToCanvas();
   player.syncToCanvas();
-  draw();
 });
 
-showStartScreen();
+updateHud();
 gameLoop();

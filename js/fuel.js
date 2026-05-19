@@ -17,7 +17,9 @@ function spawnFuel() {
 }
 
 function updateFuel() {
-  if (Math.random() < GAME.fuelSpawnChance) {
+  var difficulty = createDifficultyProfile(score, GAME);
+
+  if (Math.random() < difficulty.fuelSpawnChance) {
     spawnFuel();
   }
 
@@ -26,8 +28,18 @@ function updateFuel() {
     fuel.y += fuel.speed;
     clampToRiver(fuel, 0);
 
-    if (checkCollision(player, fuel, GAME.fuelCollisionBuffer)) {
-      player.fuel = Math.min(GAME.maxFuel, player.fuel + 30);
+    var fuelCollision = resolvePlayerFuelCollision(
+      player,
+      fuel,
+      player,
+      fuel,
+      GAME.fuelCollisionBuffer,
+      GAME.fuelPickupGain,
+      GAME.maxFuel
+    );
+
+    if (fuelCollision) {
+      player.fuel = fuelCollision.fuelAfter;
       fuels.splice(i, 1);
       continue;
     }

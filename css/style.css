@@ -87,28 +87,17 @@ canvas {
   display: inline-block;
 }
 
-.screen,
 .game-over {
   position: absolute;
   inset: 0;
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  z-index: 20;
-}
-
-.screen--start,
-.screen--paused {
-  background: rgba(0, 0, 0, 0.76);
-}
-
-.screen--gameover,
-.game-over {
   background: rgba(0, 0, 0, 0.82);
+  z-index: 20;
+  padding: 24px;
 }
 
-.screen__panel,
 .game-over__panel {
   display: flex;
   flex-direction: column;
@@ -127,36 +116,19 @@ canvas {
   text-align: center;
 }
 
-.screen__eyebrow,
-.game-over__eyebrow {
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
-.screen__title,
 .game-over__title {
   font-size: 64px;
   line-height: 1;
-  color: var(--text-primary);
-  text-shadow: 0 0 18px rgba(255, 255, 255, 0.12);
-}
-
-.screen__title--danger {
   color: var(--danger);
   text-shadow: 0 0 18px rgba(255, 60, 60, 0.35);
 }
 
-.screen__message,
 .game-over__message {
   max-width: 320px;
   font-size: 16px;
   color: var(--text-secondary);
 }
 
-.screen__button,
 .game-over__button {
   padding: 14px 30px;
   font-size: 20px;
@@ -168,7 +140,6 @@ canvas {
   transition: 0.2s;
 }
 
-.screen__button:hover,
 .game-over__button:hover {
   background: var(--accent-hover);
 }
@@ -189,12 +160,10 @@ canvas {
     width: calc(100% - 24px);
   }
 
-  .screen__panel,
   .game-over__panel {
     padding: 28px 24px;
   }
 
-  .screen__title,
   .game-over__title {
     font-size: 48px;
   }

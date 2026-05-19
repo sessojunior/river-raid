@@ -24,33 +24,14 @@
   </header>
 
   <div class="controls">
-    <span class="controls__hint">Enter começar | P pausar | ← → mover | ESPAÇO atirar</span>
+    <span class="controls__hint">← → mover | ESPAÇO atirar</span>
   </div>
 
-  <div class="screen screen--start" id="startScreen" aria-live="polite">
-    <div class="screen__panel">
-      <p class="screen__eyebrow">RIVER RAID CLONE</p>
-      <h1 class="screen__title">COMECE A MISSÃO</h1>
-      <p class="screen__message">Pressione Enter ou clique em Começar para iniciar.</p>
-      <button class="screen__button" type="button" onclick="startGame()">Começar</button>
-    </div>
-  </div>
-
-  <div class="screen screen--paused" id="pauseScreen" aria-live="polite">
-    <div class="screen__panel">
-      <p class="screen__eyebrow">JOGO PAUSADO</p>
-      <h1 class="screen__title">PAUSA</h1>
-      <p class="screen__message">Pressione P ou clique em Continuar para retomar.</p>
-      <button class="screen__button" type="button" onclick="resumeGame()">Continuar</button>
-    </div>
-  </div>
-
-  <div class="screen screen--gameover" id="gameOverScreen" aria-live="polite">
-    <div class="screen__panel">
-      <p class="screen__eyebrow">MISSÃO ENCERRADA</p>
-      <h1 class="screen__title screen__title--danger">GAME OVER</h1>
-      <p class="screen__message">Seu avião foi abatido. Pressione Reiniciar para tentar de novo.</p>
-      <button class="screen__button" type="button" onclick="restartGame()">Reiniciar</button>
+  <div class="game-over" id="gameOverScreen" aria-live="polite">
+    <div class="game-over__panel">
+      <h1 class="game-over__title">GAME OVER</h1>
+      <p class="game-over__message">Seu avião foi abatido. Pressione Reiniciar para tentar de novo.</p>
+      <button class="game-over__button" type="button" onclick="restartGame()">Reiniciar</button>
     </div>
   </div>
 
@@ -58,7 +39,12 @@
 
   <script src="js/config.js"></script>
   <script src="js/input.js"></script>
-  <script src="js/utils.js"></script>
+  <script src="js/collision.js"></script>
+  <script src="js/spawn.js"></script>
+  <script src="js/score.js"></script>
+  <script src="js/river-logic.js"></script>
+  <script src="js/difficulty-logic.js"></script>
+  <script src="js/collision-responses.js"></script>
   <script src="js/sprites.js"></script>
   <script src="js/river.js"></script>
   <script src="js/bullets.js"></script>

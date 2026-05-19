@@ -1,0 +1,14 @@
+{
+  "name": "river-raid-clone",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx serve .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "serve": "^14.2.6",
+    "vitest": "^4.1.6"
+  }
+}
