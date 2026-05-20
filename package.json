@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "npx serve .",
     "test": "vitest run",
+    "test:training": "vitest run da_training_project_tests",
     "test:watch": "vitest"
   },
   "devDependencies": {
